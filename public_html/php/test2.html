@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+    <input type="radio" name="izbor" value="izbor1" id="izbor1" checked>
+    Otvori <input type="text" name="x" id="x"><input type="text" name="y" id="y">
+    <br>
+    <input type="radio" name="izbor" value="izbor2" id="izbor2">
+    Zatvori
+    <br>
+    <canvas id="canvas" width="600px" height="600px" style="border:1px solid black"></canvas>
+    <script>
+    var ctx = $("#canvas").get(0).getContext("2d");
+    
+    
+    $("#canvas").on("click",function(event){
+        if($("#izbor1").is(':checked'))
+        {
+            stvoriProzor(event);
+        }
+        else
+        {
+            zatvoriProzor(event);
+        }
+    })
+    function stvoriProzor(event)
+    {
+        console.log("usan");
+        var rect = canvas.getBoundingClientRect();
+        var mx = event.clientX;
+        var my = event.clientY;
+        var x=parseInt($("#x").val());
+        var y=parseInt($("#y").val());
+
+        ctx.beginPath();
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(mx-rect.x, my-rect.y, x, 30);
+        ctx.strokeRect(mx-rect.x, my-rect.y, x, y);
+        ctx.strokeText('prozor', mx-rect.x+25, my-rect.y+15) 
+        ctx.strokeRect(mx+x-rect.x-30, my-rect.y, 30, 30);
+        ctx.fillStyle = "red";
+        ctx.fillRect(mx+x-rect.x-30, my-rect.y, 30, 30);
+        ctx.stroke();
+    }
+    function zatvoriProzor(event)
+    {
+        console.log("tusan");
+        var rect = canvas.getBoundingClientRect();
+        var mx = event.clientX;
+        var my = event.clientY;
+        
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <title>Zadatak5</title>
+</head>
+<body>
+    <input type="text" name="datum" id="datum">
+    <button id="bokej">Nije OK</button>
+    <script>
+        $("#bokej").on("click",klik);
+        function klik()
+        {
+            alert("klik");
+        }
+        $("#datum").on("input",jeli_okej);
+        jeli_okej()
+        function jeli_okej()
+        {
+            var str=$("#datum").val();
+            okej=false;
+            if(str.length!==10)
+            {
+                odradi(okej);
+                return;
+            }
+            if(str[2]!=="/" || str[5]!=="/")
+            {
+                odradi(okej);
+                return;
+            }
+            var br=0;
+            for(var i=0;i<10;i++)
+            {
+                if(str[i]==="/")
+                {
+                    br++;
+                }
+            }
+            if(br!==2)
+            {
+                odradi(okej);
+                return;
+            }
+            var dan=Number(str.slice(0,2));
+            var misec=Number(str.slice(3,5));
+            var godina=Number(str.slice(6));
+            if(dan<=0 || dan>=31)
+            {
+                odradi(okej);
+                return;
+            }
+            if(misec<1 || misec>12)
+            {
+                odradi(okej);
+                return;
+            }
+            if(godina<1000 || godina>3000)
+            {
+                odradi(okej);
+                return;
+            }
+            odradi(true);
+        }
+        function odradi(okej)
+        {
+            var botun=$("#bokej");
+            if(okej===true)
+            {
+                botun
+                .css("background-color","green")
+                .html("Okej")
+                .prop("disabled",false);
+            }
+            else
+            {
+                botun.css("background-color","red")
+                .html("Nije okej")
+                .prop("disabled",true);
+            }
+        }
+    </script>
+</body>
+</html>

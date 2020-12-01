@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <title>Primjer5</title>
+</head>
+<body>
+    <div id="golijat" style="height: 100px;width: 100px;background-color: blue;">
+    </div>
+    <script>
+        $("#golijat").on("mousemove",prati);
+        $("body").on("keydown",pritisni);
+        $("body").on("keyup",pusti);
+        function prati(event)
+        {
+            $("#golijat").css("position","relative").css("left",event.clientX-50).css("top",event.clientY-50);    
+        }
+        function pritisni(event)
+        {
+            if(event.key==="r" || event.key==="R")
+            {
+                $("#golijat").css("background-color","red");
+            }
+            else{
+                $("#golijat").css("background-color","green");
+            }
+        }
+        function pusti(event)
+        {
+            $("#golijat").css("background-color","blue");
+        }
+    </script>
+</body>
+</html>

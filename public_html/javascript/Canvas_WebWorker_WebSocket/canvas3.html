@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primjer 2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+    <canvas width="900" height="600" id="canvas" style="border:black solid 3px;"></canvas>
+    <br>
+    <canvas width="900" height="600" id="canvas2" style="border:black solid 3px;"></canvas>
+    <script>  
+    $( document ).ready( crtaj );
+    $( document ).ready( crtaj2 );
+    function crtaj() 
+    {
+        var ctx = $( "#canvas" ).get(0).getContext( "2d" );
+        ctx.translate( 0, 400 );
+        ctx.beginPath();
+
+        function rek( dubina ) 
+        {
+            if( dubina > 0 ) 
+            {
+                rek( dubina - 1 );
+                ctx.rotate( -Math.PI/3 );
+                rek( dubina - 1 );
+                ctx.rotate( +2*Math.PI/3 );
+                rek( dubina - 1 );
+                ctx.rotate( -Math.PI/3 );
+                rek( dubina - 1 );
+            }
+            else 
+            {
+                ctx.lineTo( 10, 0 );
+                ctx.translate( 10, 0 );
+            }
+        }
+
+        rek( 4 );
+        ctx.stroke();
+    }
+        
+
+    function crtaj2() 
+    {
+        var ctx = $( "#canvas2" ).get(0).getContext( "2d" );
+        ctx.strokeStyle = "black";
+        ctx.translate( 300, 300 ); 
+
+        function rek( dubina ) 
+        {
+            if( dubina > 0 ) 
+            {
+                // Zapamtimo trenutnu matricu transformacije.
+                ctx.save();
+
+                // Nacrtamo deblo aktualnog stabla.
+                ctx.beginPath();
+                ctx.moveTo( 0, 0 );
+
+                ctx.lineTo( 0, -dubina*10 );
+                ctx.stroke();
+
+                ctx.translate( 0, -dubina*10 );
+                ctx.rotate( -Math.PI/3 );
+                rek( dubina-1 );
+                ctx.rotate( 2*Math.PI/3 );
+                rek( dubina-1 );
+                ctx.restore();
+            }
+    }
+
+    rek( 7 );
+}
+
+    
+    </script>
+</body>
+</html>

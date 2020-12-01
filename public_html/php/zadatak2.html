@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zad2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+    Odaberi igru <select name="izbor" id="izbor">
+        <option value="PRVA">PRVA</option>
+        <option value="DRUGA">DRUGA</option>
+        <option value="TRECA">TRECA</option>
+    </select>
+    <br>
+    <button name="botun" id="botun">Nova igra</button>
+    <br>
+    <table id="table" style="border: 1px solid black;">
+        <tr><td width="20px" height="20px" style="border: 1px solid black;"></td></tr>
+    </table>
+    <script>
+        var igra="";
+        var zadnjeslovo="",zadnjiId=0;
+    $("#botun").on("click",function(){
+        $("#table tr").remove();
+        zadnjeslovo="";
+        zadnjiId=0;
+        var odabrano=$("#izbor option:selected").val();
+        console.log(odabrano);
+        $.ajax(
+            {
+                url: "zadatak2.php",
+                data:
+                {
+                    novaigra:odabrano
+                },
+                type: "GET",
+                dataType:"json",
+                success: function(data)
+                {
+                    console.log(data);
+                    //var data = JSON.parse(data);
+                    if (data.length==1) {
+                        console.log("nema igre");
+                    }
+                    else{
+                        draw_table(parseInt(data['x']),parseInt(data['y']));
+                        console.log("dobro je");
+                    }
+                    igra=odabrano;
+                },
+                error: function( xhr, status )
+                {
+                    if( status !== null )
+                        console.log( "Greška prilikom Ajax poziva: " + status );
+                    
+                }
+            } );
+    });
+    //$("table.td").on("click",
+    function klik(id){
+        //var id=$(this).attr("id");
+        var x=parseInt(id/10);
+        var y=id%10;
+        console.log(x);console.log(y);
+        $.ajax(
+            {
+                url: "zadatak2.php",
+                data:
+                {
+                    igra:igra,
+                    x:x-1,
+                    y:y-1
+                },
+                type: "GET",
+                dataType:"json",
+                success: function(data)
+                {
+                    if(id!==zadnjiId)                 
+                    {
+                        $("#"+id).html(data['slovo']);
+                        if(zadnjeslovo==="")
+                        {
+                            zadnjeslovo=data['slovo'];
+                            zadnjiId=id;
+                            console.log(zadnjeslovo+id);
+                        }
+                        else if(data['slovo']!==zadnjeslovo)
+                        {
+                            setTimeout(function(){$("#"+id).html("");$("#"+zadnjiId).html("");zadnjeslovo="";
+                            zadnjiId=0;}, 1000);
+                        }
+                        else if(data['slovo']===zadnjeslovo){
+                            zadnjeslovo="";
+                            zadnjiId=0;
+                        }
+                    }
+                    console.log("id"+id);
+                    console.log("zadnji id"+zadnjiId);
+                },
+                error: function( xhr, status )
+                {
+                    if( status !== null )
+                        console.log( "Greška prilikom Ajax poziva: " + status );
+                    
+                }
+            } );
+    }
+    function draw_table(x,y)
+    {
+        var table=$("#table");
+        var content="";
+        for(var i=0;i<y;i++)
+        {
+            content+="<tr>";
+            for(var j=0;j<x;j++)
+            {
+                var id=(i+1).toString()+(j+1).toString();                    
+                content+='<td onclick="klik('+id+')" id="'+id+'"width="20px" height="20px" style="border: 1px solid black;"></td>';    
+            }
+            content+="</tr>";
+        }
+        table.append(content);
+    }
+    </script>
+</body>
+</html>

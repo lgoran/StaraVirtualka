@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <title>zadatak2</title>
+</head>
+<body>
+    <ul class="zivotinja">
+        <li>Pas</li>
+        <li>Mačka</li>
+        <li class="velika">Žirafa</li>
+    </ul>
+    <ul>
+        <li>Traktor</li>
+        <li>Auto</li>
+        <li>Dimnjak</li>
+    </ul>
+    <ul class="zivotinja">
+        <li class="velika">Slon</li>
+        <li>Mrav</li>
+    </ul>
+    <script>//kako otorit novi prozor
+        var w=window.open( "http://www.google.hr", "goog", 
+        	"height=400,width=400,top=10,left=10,resizable=yes" );
+        w.resizeTo( 700, 400 );
+        w.moveTo( 50, 100 );
+        if( confirm( "Zatvori prozor?" ) ) 
+            w.close();  
+    </script>
+    <script>  
+        var lis=$("ul.zivotinja li");
+        var popis=$("<ul>");
+        for(var i=0;i<lis.length;i++)
+        {
+            var li=lis.eq(i);
+            console.log("hello "+li.html());
+            if(li.attr("class")==="velika")
+            {
+                li.css("fontSize","24pt");
+            }
+            popis.append( "<li>" + li.html() + "</li>" );
+        }
+        console.log("broj zivotinja = "+lis.length);
+        $( "body" ).append( "<h1>Popis svih životinja:</h1>" ).append( popis );
+        lis.append("!");
+    </script>
+</body>
+</html>

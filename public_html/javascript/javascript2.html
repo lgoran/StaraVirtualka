@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        do {
+            var n = prompt("Unesi N:");
+            var is_number=true;
+            for (let i = 0; i < n.length; i++) {
+                if(n[i]<'0' || n[i]>'9')
+                {
+                    is_number=false;
+                    break;
+                }                    
+            }
+        } while (!is_number);
+    </script>
+    <table>
+        <tr>
+            <th></th>
+            <script>
+                for (let i = 1; i <= n; i++) {
+                    document.write("<th>"+i+"</th>");                  
+                }
+            </script>
+        </tr>
+        <script>
+            for (let i = 1; i <= n; i++) {
+                document.write("<tr><th>"+i+"</th>");
+                for (let j = 1; j <= n; j++) {
+                    document.write("<td>"+ i*j +"</td>");
+                }
+                document.write("</tr>");
+            }
+        </script>
+    </table>
+</body>
+</html>

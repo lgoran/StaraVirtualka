@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prim1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+</head>
+<body>
+    <canvas width="600" height="600" id="canvas" style="border:black solid 3px;"></canvas>
+    <script>
+            
+    $( document ).ready( crtaj );
+
+    function crtaj() 
+    {
+        // get(0) radi sljedeće:
+        // - iz jQuery kolekcije $( "#canvas" ) vraća prvi po redu HTML objekt.
+        // (Kolekcija se u ovom slučaju i sastoji samo od jednog HTML objekta.)
+        // Razlika u odnosu na $( "#canvas" ).at(0) je ta što .at(0) vraća ponovno jQuery objekt (a ne HTML).
+        // Ekvivalentno: $( "#canvas" )[0].getContext( "2d" );
+        var ctx = $( "#canvas" ).get(0).getContext( "2d" );
+        ctx.strokeStyle = "rgb(150, 150, 150)"; ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.lineTo(100,100);
+        ctx.lineTo(200,100);
+        ctx.arc(200,100,50,Math.PI/4, 0, false );
+        ctx.stroke();
+        
+
+        for( var x = 0; x < 10; ++x )
+            for( var y = 0; y < 10; ++y )
+            {
+                ctx.fillStyle = "rgb(" + x*20 + ", 0, " + y*20 + ")";
+                ctx.fillRect( 200+x*30, 200+y*30, 30, 30 );
+            }
+
+        ctx.font = "72px Arial";
+        ctx.fillText( "Hello", 400, 200 );
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <style>
+        td {border: solid 1px black;
+            width: 50px;
+            height: 50px;
+            border-collapse: collapse;
+        }
+        table {
+            empty-cells: show;
+        }
+    </style>
+    <title>Zadatak 2</title>
+</head>
+<body>
+    
+    <div style="float: right;">
+    <button id="gore">--------Gore--------</button><br>
+    <button id="lijevo">Lijevo</button><button id="desno">Desno</button><br>
+    <button id="dolje">--------Dolje--------</button><br><br>
+    Akcije:<br>
+    <input type="radio" name="radio" id="1" value="1" checked>Kopaj<br>
+    <input type="radio" name="radio" id="2" value="2">Uzmi<br>
+    <button id="izvrsi">Izvrši akciju</button><br><br>
+    Lik ima <span id="energija"></span> energije.
+    <br>
+    Lik nosi <span id="kamenje"></span> kamena i <span id="dijamanti"></span> dijamanta.
+    
+    </div>
+    
+    <table id="tabla"></table>
+    <script>
+        var polje_uzetih=[];
+        var polje_otkrivenih=[];
+        for(var i=0;i<100;i++)
+        {
+            polje_uzetih=0;
+            polje_otkrivenih.push("?");
+        }
+        //polje[0]="L";
+        
+        var pozicija=0;
+        var energija=100;
+        var kamenje=0;
+        var dijamanti=0;
+        var otkriveno;
+        draw_table();
+
+        $("#izvrsi").on("click",function()
+        {
+            var radnja = $("input[name='radio']:checked").val();
+            
+            $.ajax(
+            {
+                url: "zadatak2.php",
+                data:
+                {
+                    pozicija:pozicija
+                },
+                type: "GET",
+                dataType:"json",
+                success: function(data)
+                {
+                    otkriveno=data['otkriveno'];
+                    odradi_posao(radnja,pozicija);
+                },
+                error: function( xhr, status )
+                {
+                    if( status !== null )
+                        console.log( "Greška prilikom Ajax poziva: " + status );
+                }
+            } );
+            
+        }) 
+        function odradi_posao(radnja,pozicija)
+        {
+            if(radnja==="1")
+            {
+                energija--;
+                if(otkriveno!==".")
+                    polje_otkrivenih[pozicija]=otkriveno;
+                else
+                    polje_otkrivenih[pozicija]="";
+                draw_table();
+            }
+            else
+            {
+                if(otkriveno==="K")
+                {
+                    kamenje++;
+                }
+                else if(otkriveno==="D")
+                {
+                    dijamanti++;
+                }
+                polje_otkrivenih[pozicija]="";
+                draw_table();
+            }
+        }
+
+
+
+
+        $("#dolje").on("click",function(){
+            pomakni("dolje");
+        })
+        $("#gore").on("click",function(){
+            pomakni("gore");
+        })
+        $("#lijevo").on("click",function(){
+            pomakni("lijevo");
+        })
+        $("#desno").on("click",function(){
+            pomakni("desno");
+        })
+        function pomakni(smjer)
+        {
+            if(smjer==="dolje")
+            {
+                if(pozicija+10<=99)
+                {
+                    pozicija+=10;
+                }
+            }
+            else if(smjer==="gore")
+            {
+                if(pozicija-10>=0)
+                {
+                    pozicija-=10;
+                }
+            }
+            else if(smjer==="lijevo")
+            {
+                if(pozicija>0 && parseInt((pozicija-1)/10)===parseInt(pozicija/10))
+                {
+                    pozicija--;
+                }
+            }
+            else if(smjer==="desno")
+            {
+                if(parseInt((pozicija+1)/10)===parseInt(pozicija/10))
+                {
+                    pozicija++;
+                }
+            }
+            draw_table();
+        }
+        function klik(event,id)
+        {
+            var pos=parseInt(id);
+            if(event.button ===0)
+            {
+                $.ajax(
+                {
+                    url: "zadatak2.php",
+                    data:
+                    {
+                        pozicija:pos
+                    },
+                    type: "GET",
+                    dataType:"json",
+                    success: function(data)
+                    {
+                        otkriveno=data['otkriveno'];
+                        odradi_posao("1",pos);
+                    },
+                    error: function( xhr, status )
+                    {
+                        if( status !== null )
+                            console.log( "Greška prilikom Ajax poziva: " + status );
+                    }
+                } );
+            }
+            else if(event.button===2)
+            {
+                console.log("tusan");
+                $.ajax(
+                {
+                    url: "zadatak2.php",
+                    data:
+                    {
+                        pozicija:pos
+                    },
+                    type: "GET",
+                    dataType:"json",
+                    success: function(data)
+                    {
+                        otkriveno=data['otkriveno'];
+                        odradi_posao("2",pos);
+                    },
+                    error: function( xhr, status )
+                    {
+                        if( status !== null )
+                            console.log( "Greška prilikom Ajax poziva: " + status );
+                    }
+                } );
+            }
+        }
+        function draw_table()
+        {
+            $("#tabla tr").remove();
+            for(var i=0; i<10; i++){
+                var row = $('<tr>');
+                for(var j=0; j<10; j++){
+                    var celija;
+                    if(polje_otkrivenih[i*10+j]!=="?")
+                    {
+                        if(i*10+j===pozicija)
+                        {
+                            celija = $('<td onmousedown="klik(event,this.id)" id="'+(i*10+j)+'">'+ polje_otkrivenih[i*10+j]+ "L" +'</td>');
+                        }
+                        else
+                            celija = $('<td onmousedown="klik(event,this.id)" id="'+(i*10+j)+'">'+ polje_otkrivenih[i*10+j] +'</td>');
+                    }
+                    else
+                    {
+                        if(i*10+j===pozicija)
+                        {
+                            celija = $('<td onmousedown="klik(event,this.id)" id="'+(i*10+j)+'">L</td>');
+                        }
+                        else
+                            celija = $('<td onmousedown="klik(event,this.id)" id="'+(i*10+j)+'">?</td>');
+                    }
+                    row.append(celija);
+                }
+                $("#tabla").append(row);
+            }
+            $("#energija").html(energija);
+            $("#kamenje").html(kamenje);
+            $("#dijamanti").html(dijamanti);
+        }
+
+    </script>
+
+</body>
+</html>

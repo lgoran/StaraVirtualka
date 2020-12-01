@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zad1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+</head>
+<body>
+    <canvas width="600" height="600" id="canvas" style="border:black solid 3px;"></canvas>
+    <script>
+            
+    
+$( document ).ready( function()
+{
+    $( "#canvas" ).on( "click", crtajDuzinu );
+} );
+
+
+var startX = null, startY = null;
+
+function crtajDuzinu( event ) 
+{
+    // this = canvas na kojem se dogodio klik miša
+    var ctx = this.getContext( "2d" );
+    var rect = this.getBoundingClientRect();
+
+    // Otkrij na kojim koordinatama je bio klik.
+    // Koordinate miša su s obzirom na prozor.
+    // Treba oduzeti koordinate gornjeg lijevog vrha pravokutnika
+    // HTML elementa canvas.
+    var x = event.clientX - rect.left, y = event.clientY - rect.top;
+
+    // Nacrtaj na (x, y) križić.
+    ctx.beginPath();
+    ctx.moveTo( x-5, y-5 );
+    ctx.lineTo( x+5, y+5 );
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo( x+5, y-5 );
+    ctx.lineTo( x-5, y+5 );
+    ctx.stroke();
+    
+    // Otkrij je li ovo prvi ili drugi klik
+    if( startX === null )
+    {
+        // Prvi klik -- samo zapamti koordinate
+        startX = x; startY = y;
+    }
+    else
+    {
+        // Drugi klik -- nacrtaj dužinu i zaboravi start
+        ctx.beginPath();
+        ctx.moveTo( startX, startY );
+        ctx.lineTo( x, y );
+        ctx.stroke();
+
+        startX = null; startY = null;
+    }
+}
+
+    
+    
+    </script>
+</body>
+</html>

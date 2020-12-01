@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <title>zadatak1</title>
+</head>
+<body>
+    <p>Lorem ipsum dolor sit amet crveno consectetur adipisicing elit. Sapiente, molestias.</p>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea žuto totam accusamus obcaecati laborum! Molestiae ea praesentium facere natus placeat velit aliquid aspernatur commodi consequatur, consequuntur doloribus aut illo veritatis magni.</p>
+    <p>Lorem ipsum dolor sit amet žuto consectetur adipisicing elit. Hic error sit quis iste vel sed porro nihil itaque accusantium accusamus?</p>
+    <p>Lorem ipsum dolor sit amet consectetur crveno adipisicing elit. Libero soluta, magnam eveniet aspernatur incidunt officiis aperiam vel ipsa eaque culpa est sed blanditiis architecto numquam quibusdam repellendus, molestiae a placeat impedit voluptate aliquid enim? Fugit magni facilis nobis dolores ullam, fugiat labore totam possimus accusantium. Maxime, pariatur iste deserunt assumenda voluptate laborum optio ratione deleniti.</p>
+    <script>
+        var paragrafi=$("p");
+        for(var i=0;i<paragrafi.length;i++)
+        {
+            var paragraf=paragrafi.eq(i);
+            var tekst=paragraf.html().split(' ');
+            for(var j=0;j<tekst.length;j++)
+            {
+                if(tekst[j]==="žuto")
+                {
+                    paragraf.css("background-color","yellow");
+                    break;
+                }
+                else if(tekst[j]==="crveno")
+                {
+                    paragraf.css("color","red");
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

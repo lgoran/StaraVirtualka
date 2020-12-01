@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <style>
+        button{
+            float: left;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 17px;
+            
+        }
+    </style>
+    <title>calc</title>
+</head>
+<body>
+    <input type="text" name="rez" id="rez">
+    <br>
+    <button id="b1">1</button><button id="b2">2</button><button id="b3">3</button><button id="plus">+</button>
+    <br><br><br>
+    <button id="b4">4</button><button id="b5">5</button><button id="b6">6</button><button id="minus">-</button>
+    <br><br><br>
+    <button id="b7">7</button><button id="b8">8</button><button id="b9">9</button><button id="puta">*</button>
+    <br><br><br>
+    <button id="b0">0</button><button id="jednako">=</button><button id="brisi">C</button><button id="djeljeno">/</button>
+    
+    <script>
+    $(document).ready(function()
+    {
+        
+        $("button").on("click",odluci);
+        function odluci()
+        {
+            var botun=$(this);
+            if(botun.attr("id").length==2)
+                unesi(botun);
+            else
+                odradi(botun);
+        }
+        function unesi(botun)
+        {
+            $("#rez").val($("#rez").val()+botun.html());
+        }
+        function odradi(botun)
+        {
+            if(botun.html()==="+")
+                unesi(botun);
+            else if(botun.html()==="-")
+                unesi(botun);
+            else if(botun.html()==="*")
+                unesi(botun);
+            else if(botun.html()==="/")
+                unesi(botun);
+            else if(botun.html()==="C")
+            {
+                var str=$("#rez").val();
+                str=str.slice(0,-1);
+                $("#rez").val(str);
+            }
+            else if(botun.html()==="=")
+            {
+                var str=$("#rez").val();
+                var str_broj="";
+                var flag=0,rez=0;
+                for(var i=0;i<str.length;i++)
+                {
+                    if(str[i]=="+")
+                    {
+                        rez+=Number(str_broj);
+                        str_broj="";
+                        flag=1;
+                    }
+                    else if(str[i]=="-")
+                    {
+                        if(flag==0)
+                            rez+=Number(str_broj);
+                        else
+                            rez-=Number(str_broj);
+                        str_broj="";
+                        flag=2;
+                    }
+                    else if(str[i]=="*")
+                    {
+                        if(flag==0)
+                            rez+=Number(str_broj);
+                        else
+                            rez*=Number(str_broj);
+                        str_broj="";
+                        flag=3;
+                    }
+                    else if(str[i]=="/")
+                    {
+                        if(flag==0)
+                            rez+=Number(str_broj);
+                        else
+                            rez/=Number(str_broj);
+                        str_broj="";
+                        flag=4;
+                    }
+                    else str_broj+=str[i];
+                }
+                if(flag==1)
+                    rez+=Number(str_broj);
+                else if(flag==2)
+                    rez-=Number(str_broj);
+                else if(flag==3)
+                    rez*=Number(str_broj);
+                else if(flag==4)
+                    rez/=Number(str_broj);
+                else
+                    rez=0;
+                $("#rez").val(rez);
+            }
+        }
+
+    });
+    </script>
+</body>
+</html>

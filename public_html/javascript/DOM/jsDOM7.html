@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <title>Zadatak6</title>
+    <style>
+        html{ height: 100%; }
+        body{ min-height: 100%; }
+    </style>
+</head>
+<body>
+    <p id="p"></p>
+    <button style="position: absolute;"id="botun">Klikni me</button>
+    <script>
+        $("body").on("mousemove",ispisKoordinate);
+        $("body").on("mousedown",tipka);
+        $("#botun").on("mouseover",premjesti);
+        premjesti();
+        function ispisKoordinate(event)
+        {
+            $("#p").html("("+event.clientX+" , "+event.clientY+")");
+        }
+        function premjesti()
+        {
+            var left=Math.floor( Math.random() * 95 );
+            var top=Math.floor( Math.random() * 95 );
+            console.log(left);
+            console.log(top);
+            $("#botun").css("left",left+"%");
+            $("#botun").css("top",top+"%");
+        }
+        function tipka(event)
+        {
+            var str="";
+            if(event.button===0)
+            {
+                str="Klik miša je: Lijevi";
+            }
+            else if(event.button===1)
+            {
+                str="Klik miša je: Srednji";
+            }
+            else if(event.button===2)
+            {
+                str="Klik miša je: Desni";
+            }
+            $("body").append("<p>"+str+"</p>");
+        }
+    </script>
+</body>
+</html>

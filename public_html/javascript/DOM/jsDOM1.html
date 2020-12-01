@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>Pas</li>
+        <li>Mačka</li>
+        <li class="velika">Žirafa</li>
+    </ul>
+    <ul>
+        <li class="velika">Slon</li>
+        <li>Mrav</li>
+    </ul>
+    <script>
+        var ulista=document.getElementsByTagName("ul");
+        var br=0;
+        
+        for (var i=0; i<ulista.length;i++) {
+            ulist=ulista[i];
+            for (var j=0 ; j<ulist.children.length;j++) {
+                zivotinja=ulist.children[j];
+                console.log("hello"+zivotinja.innerHTML);
+                if(zivotinja.hasAttribute("class"))
+                {
+                    if(zivotinja.className==="velika")
+                    {
+                        zivotinja.style.fontSize="24pt";
+                    }
+                }
+                br++;
+            }
+        }
+        console.log("ukupno zivotinja:"+br);
+    </script>
+</body>
+</html>
